@@ -1,6 +1,8 @@
 package main
 
 import (
+	"runtime"
+
 	"fyne.io/fyne/v2/app"
 	"github.com/checkm4ted/Glicker/internal/utils"
 	"golang.org/x/sys/windows"
@@ -8,7 +10,9 @@ import (
 
 func main() {
 	// Call timeBeginPeriod to fix timer ;)
-	windows.TimeBeginPeriod(1)
+	if runtime.GOOS == "windows" {
+		windows.TimeBeginPeriod(1)
+	}
 
 	a := app.New()
 
