@@ -19,7 +19,7 @@ You should be able to run
 
 ## Screenshots
 ![image](https://github.com/checkm4ted/glicker/assets/146487129/f55d17da-6b3f-4465-ab06-34ad945ee25a)
-![image](https://github.com/checkm4ted/glicker/assets/146487129/d54e30e5-a67c-4f50-bd9b-68b320767397)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/dcd1db5a-e57f-4e16-bc24-55e5785826ae)
 
 ## Building
 ### Requirements:
