@@ -4,6 +4,7 @@ import (
 	"runtime"
 
 	"fyne.io/fyne/v2/app"
+	"github.com/checkm4ted/Glicker/internal/layout"
 	"github.com/checkm4ted/Glicker/internal/utils"
 	"golang.org/x/sys/windows"
 )
@@ -18,12 +19,7 @@ func main() {
 
 	w := *utils.Setup(&a)
 
-	utils.Gk = utils.Glicker{
-		App:    &a,
-		Window: &w,
-	}
-
-	utils.Layout(&w)
+	layout.Layout(&w)
 
 	(w).ShowAndRun()
 

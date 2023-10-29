@@ -1,8 +1,7 @@
-package utils
+package layout
 
 import (
 	"fmt"
-	"math"
 	"math/rand"
 	sc "strconv"
 	"time"
@@ -12,62 +11,45 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
+	g "github.com/checkm4ted/Glicker/internal/globals"
+	"github.com/checkm4ted/Glicker/internal/utils"
 	"github.com/go-vgo/robotgo"
-	hook "github.com/robotn/gohook"
 )
 
-var Started bool = false
-var Clicking bool = false
-var Cps float64 = 1
-var randomVariation float64 = 10
-var toggleKey uint16 = 66
+var randomVariation float64 = 0
 var button string = "left"
-var waitForKey bool = false
 var slvalue = 0
-
-func keycodeToName(k uint16) string {
-	for i, v := range hook.Keycode {
-		if v == k {
-			return i
-		}
-	}
-	return "Unknown"
-}
-
-func logslider(position float64) float64 {
-	return math.Pow(10, position/10)
-}
 
 func Layout(w *f.Window) {
 
 	var setKeyBtn *widget.Button
-	setKeyBtn = widget.NewButton("Toggle Key: "+keycodeToName(toggleKey), func() {
-		waitForKey = true
+	setKeyBtn = widget.NewButton("Toggle Key: "+utils.KeycodeToName(g.ToggleKey), func() {
+		g.WaitForKey = true
 		setKeyBtn.SetText("Press A key")
 	})
 
 	var startBtn *widget.Button
 	startBtn = widget.NewButton("Start", func() {
-		Started = !Started
-		if Started {
-			startBtn.SetText(fmt.Sprintf("Stop (Toggle with %s)", keycodeToName(toggleKey)))
-			Clicking = false
+		g.Started = !g.Started
+		if g.Started {
+			startBtn.SetText(fmt.Sprintf("Stop (Toggle with %s)", utils.KeycodeToName(g.ToggleKey)))
+			g.Clicking = false
 			go func() {
-				for Started {
+				for g.Started {
 					//wait until clicking to save CPU.
-					for !Clicking {
+					for !g.Clicking {
 						time.Sleep(100 * time.Millisecond)
 					}
-					if Clicking {
+					if g.Clicking {
 						robotgo.MouseDown(button)
 						time.Sleep(1 * time.Millisecond)
 						robotgo.MouseUp(button)
 						// Sleep for CPS + random variation
-						if Cps < 0.1 {
+						if g.Cps < 0.1 {
 							time.Sleep(50 * time.Millisecond)
 							continue
 						}
-						time.Sleep(time.Duration(1000/Cps+(rand.Float64()*randomVariation)) * time.Millisecond)
+						time.Sleep(time.Duration(1000/g.Cps+(rand.Float64()*randomVariation)) * time.Millisecond)
 					}
 				}
 			}()
@@ -77,32 +59,15 @@ func Layout(w *f.Window) {
 		}
 	})
 
-	go func() {
-		eventHook := hook.Start()
-		for e := range eventHook {
-			if e.Kind == hook.KeyUp {
-				if e.Keycode == toggleKey {
-					Clicking = !Clicking
-				}
-				if waitForKey {
-					toggleKey = e.Keycode
-					waitForKey = false
-					setKeyBtn.SetText("Toggle Key: " + keycodeToName(toggleKey))
-					startBtn.SetText(fmt.Sprintf("Stop (Toggle with %s)", keycodeToName(toggleKey)))
-				}
-			}
-		}
-	}()
-
-	cpslabel := widget.NewLabel("CPS: " + sc.FormatFloat(float64(Cps), 'f', 1, 32))
+	cpslabel := widget.NewLabel("CPS: " + sc.FormatFloat(float64(g.Cps), 'f', 1, 32))
 
 	// CPS Slider
 	slider := widget.NewSlider(0, 30)
 	slider.Step = 0.1
 	slider.SetValue(float64(slvalue))
 	slider.OnChanged = func(value float64) {
-		Cps = logslider(value)
-		cpslabel.SetText("CPS: " + sc.FormatFloat(Cps, 'f', 1, 32))
+		g.Cps = utils.LogSlider(value)
+		cpslabel.SetText("CPS: " + sc.FormatFloat(g.Cps, 'f', 1, 32))
 	}
 
 	rndlabel := widget.NewLabel("Random Variation: " + sc.FormatFloat(float64(randomVariation), 'f', 1, 32) + "ms")
@@ -122,6 +87,8 @@ func Layout(w *f.Window) {
 	})
 
 	dropdown.SetSelected("left")
+
+	utils.StartKeyboard(&setKeyBtn, &startBtn)
 
 	(*w).SetContent(
 		container.New(layout.NewVBoxLayout(),
