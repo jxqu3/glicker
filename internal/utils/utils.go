@@ -67,16 +67,17 @@ func StartClicking() {
 				for i, v := range g.MouseButtons {
 					if v {
 						robotgo.MouseDown(i)
-						time.Sleep(1 * time.Millisecond)
+						time.Sleep(time.Duration(rand.Float32()*0.8+0.2) * time.Millisecond)
 						robotgo.MouseUp(i)
 					}
 				}
+
 				// Sleep for CPS + random variation
-				if g.Cps < 0.1 {
-					time.Sleep(50 * time.Millisecond)
-					continue
+				if g.RandomVariation > 0 {
+					time.Sleep(time.Duration(1000/g.Cps+(rand.Float64()*g.RandomVariation)) * time.Millisecond)
+				} else {
+					time.Sleep(time.Duration(1000/g.Cps) * time.Millisecond)
 				}
-				time.Sleep(time.Duration(1000/g.Cps+(rand.Float64()*g.RandomVariation)) * time.Millisecond)
 			}
 		}
 	}()
