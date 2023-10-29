@@ -9,8 +9,8 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	g "github.com/checkm4ted/Glicker/internal/globals"
-	"github.com/checkm4ted/Glicker/internal/utils"
+	g "github.com/checkm4ted/glicker/internal/globals"
+	"github.com/checkm4ted/glicker/internal/utils"
 )
 
 func Layout(w *f.Window) {

@@ -8,7 +8,7 @@ import (
 
 	f "fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
-	g "github.com/checkm4ted/Glicker/internal/globals"
+	g "github.com/checkm4ted/glicker/internal/globals"
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
 )

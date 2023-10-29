@@ -1,4 +1,4 @@
-module github.com/checkm4ted/Glicker
+module github.com/checkm4ted/glicker
 
 go 1.21.3
 

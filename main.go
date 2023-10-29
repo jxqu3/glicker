@@ -4,8 +4,8 @@ import (
 	"runtime"
 
 	"fyne.io/fyne/v2/app"
-	"github.com/checkm4ted/Glicker/internal/layout"
-	"github.com/checkm4ted/Glicker/internal/utils"
+	"github.com/checkm4ted/glicker/internal/layout"
+	"github.com/checkm4ted/glicker/internal/utils"
 	"golang.org/x/sys/windows"
 )
 
