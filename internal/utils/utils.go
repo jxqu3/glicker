@@ -3,10 +3,13 @@ package utils
 import (
 	"fmt"
 	"math"
+	"math/rand"
+	"time"
 
 	f "fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	g "github.com/checkm4ted/Glicker/internal/globals"
+	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
 )
 
@@ -45,6 +48,28 @@ func StartKeyboard(setKeyBtn **widget.Button, startBtn **widget.Button) {
 					(*setKeyBtn).SetText("Toggle Key: " + KeycodeToName(g.ToggleKey))
 					(*startBtn).SetText(fmt.Sprintf("Stop (Toggle with %s)", KeycodeToName(g.ToggleKey)))
 				}
+			}
+		}
+	}()
+}
+
+func StartClicking() {
+	go func() {
+		for g.Started {
+			//wait until clicking to save CPU.
+			for !g.Clicking {
+				time.Sleep(100 * time.Millisecond)
+			}
+			if g.Clicking {
+				robotgo.MouseDown(g.MouseButton)
+				time.Sleep(1 * time.Millisecond)
+				robotgo.MouseUp(g.MouseButton)
+				// Sleep for CPS + random variation
+				if g.Cps < 0.1 {
+					time.Sleep(50 * time.Millisecond)
+					continue
+				}
+				time.Sleep(time.Duration(1000/g.Cps+(rand.Float64()*g.RandomVariation)) * time.Millisecond)
 			}
 		}
 	}()
