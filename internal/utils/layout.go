@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"math/rand"
 	sc "strconv"
 	"time"
 
@@ -56,8 +57,8 @@ func Layout(w *f.Window) {
 						robotgo.MouseDown(button)
 						time.Sleep(1 * time.Millisecond)
 						robotgo.MouseUp(button)
-						// Sleep for CPS
-						time.Sleep(time.Duration(1000/Cps) * time.Millisecond)
+						// Sleep for CPS + random variation
+						time.Sleep(time.Duration(1000/Cps+(rand.Float32()*randomVariation)) * time.Millisecond)
 					}
 				}
 			}()
@@ -93,7 +94,7 @@ func Layout(w *f.Window) {
 		cpslabel.SetText("CPS: " + sc.FormatFloat(value, 'f', 1, 32))
 	}
 
-	rndlabel := widget.NewLabel("CPS: " + sc.FormatFloat(float64(Cps), 'f', 1, 32))
+	rndlabel := widget.NewLabel("Random Variation: " + sc.FormatFloat(float64(randomVariation), 'f', 1, 32) + "ms")
 
 	// Random Variation Slider
 	rSlider := widget.NewSlider(0, 1000)
