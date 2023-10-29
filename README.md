@@ -13,9 +13,9 @@ Go to releases and download the package
 7. Random delay between clicks!
 
 ## Screenshots
-![image](https://github.com/checkm4ted/glicker/assets/146487129/87201028-bb99-46dd-9778-fec7b0f92c70)
-![image](https://github.com/checkm4ted/glicker/assets/146487129/bbae80eb-e61e-4d31-a691-b11f54237800)
-![image](https://github.com/checkm4ted/glicker/assets/146487129/cad5dc88-9f99-41a3-b380-8fdaa635b73a)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/b6fe47d1-392c-482e-bdfe-b7d435fc69f0)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/a06448c8-23cb-4c14-9fcf-f3b183b93789)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/46fafb43-e819-4d0e-84e2-edd97df1d5d8)
 
 ## Building
 ### Requirements:
