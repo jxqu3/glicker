@@ -46,7 +46,9 @@ func StartKeyboard(setKeyBtn **widget.Button, startBtn **widget.Button) {
 					g.ToggleKey = e.Keycode
 					g.WaitForKey = false
 					(*setKeyBtn).SetText("Toggle Key: " + KeycodeToName(g.ToggleKey))
-					(*startBtn).SetText(fmt.Sprintf("Stop (Toggle with %s)", KeycodeToName(g.ToggleKey)))
+					if g.Clicking {
+						(*startBtn).SetText(fmt.Sprintf("Stop (Toggle with %s)", KeycodeToName(g.ToggleKey)))
+					}
 				}
 			}
 		}
