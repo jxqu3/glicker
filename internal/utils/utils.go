@@ -58,6 +58,9 @@ func StartClicking() {
 		for g.Started {
 			//wait until clicking to save CPU.
 			for !g.Clicking {
+				if !g.Started {
+					break
+				}
 				time.Sleep(100 * time.Millisecond)
 			}
 			if g.Clicking {
