@@ -13,10 +13,6 @@ import (
 	"github.com/checkm4ted/Glicker/internal/utils"
 )
 
-var mouseButtons = []string{
-	"left", "right", "center", "wheelDown", "wheelUp", "wheelLeft", "wheelRight",
-}
-
 func Layout(w *f.Window) {
 
 	var setKeyBtn *widget.Button
@@ -60,11 +56,28 @@ func Layout(w *f.Window) {
 
 	rSlider.Step = 0.1
 
-	dropdown := widget.NewSelect(mouseButtons, func(s string) {
-		g.MouseButton = s
-	})
+	// dropdown := widget.NewSelect(g.MouseButtons, func(s string) {
+	// 	g.MouseButton = s
+	// })
 
-	dropdown.SetSelected("left")
+	var boxes []f.CanvasObject
+
+	for i, v := range g.MouseButtons {
+		println(i)
+		el := i
+		cb := widget.NewCheck(i, func(b bool) {
+			println(el)
+			g.MouseButtons[el] = b
+		})
+		cb.SetChecked(v)
+		boxes = append(boxes, cb)
+	}
+
+	mouseAccordion := widget.NewAccordion(
+		widget.NewAccordionItem("Mouse Buttons", container.NewVBox(boxes...)),
+	)
+
+	// dropdown.SetSelected("left")
 
 	utils.StartKeyboard(&setKeyBtn, &startBtn)
 
@@ -76,7 +89,8 @@ func Layout(w *f.Window) {
 				rndlabel,
 				rSlider,
 				widget.NewLabel("Mouse Button:"),
-				dropdown,
+				//dropdown,
+				mouseAccordion,
 			),
 			setKeyBtn,
 			startBtn,

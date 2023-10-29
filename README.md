@@ -30,7 +30,7 @@ You should be able to run
 1. `fyne package`
 
 ## TODO
-- [ ] Multiple mouse buttons at once  
+- [x] Multiple mouse buttons at once  
 - [ ] Cross-platform  
 
 ## Credits/thanks
