@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	sc "strconv"
 	"time"
@@ -19,11 +20,12 @@ import (
 
 var Started bool = false
 var Clicking bool = false
-var Cps float32 = 10
-var randomVariation float32 = 10
+var Cps float64 = 1
+var randomVariation float64 = 10
 var toggleKey uint16 = 66
 var button string = "left"
 var waitForKey bool = false
+var slvalue = 0
 
 func keycodeToName(k uint16) string {
 	for i, v := range hook.Keycode {
@@ -34,10 +36,14 @@ func keycodeToName(k uint16) string {
 	return "Unknown"
 }
 
+func logslider(position float64) float64 {
+	return math.Pow(10, position/10)
+}
+
 func Layout(w *f.Window) {
 
 	var setKeyBtn *widget.Button
-	setKeyBtn = widget.NewButton("Key: "+keycodeToName(toggleKey), func() {
+	setKeyBtn = widget.NewButton("Toggle Key: "+keycodeToName(toggleKey), func() {
 		waitForKey = true
 		setKeyBtn.SetText("Press A key")
 	})
@@ -50,19 +56,25 @@ func Layout(w *f.Window) {
 			Clicking = false
 			go func() {
 				for Started {
+					//wait until clicking to save CPU.
 					for !Clicking {
-						time.Sleep(50 * time.Millisecond)
+						time.Sleep(100 * time.Millisecond)
 					}
 					if Clicking {
 						robotgo.MouseDown(button)
 						time.Sleep(1 * time.Millisecond)
 						robotgo.MouseUp(button)
 						// Sleep for CPS + random variation
-						time.Sleep(time.Duration(1000/Cps+(rand.Float32()*randomVariation)) * time.Millisecond)
+						if Cps < 0.1 {
+							time.Sleep(50 * time.Millisecond)
+							continue
+						}
+						time.Sleep(time.Duration(1000/Cps+(rand.Float64()*randomVariation)) * time.Millisecond)
 					}
 				}
 			}()
 		} else {
+
 			startBtn.SetText("Start")
 		}
 	})
@@ -77,7 +89,7 @@ func Layout(w *f.Window) {
 				if waitForKey {
 					toggleKey = e.Keycode
 					waitForKey = false
-					setKeyBtn.SetText("Key: " + keycodeToName(toggleKey))
+					setKeyBtn.SetText("Toggle Key: " + keycodeToName(toggleKey))
 					startBtn.SetText(fmt.Sprintf("Stop (Toggle with %s)", keycodeToName(toggleKey)))
 				}
 			}
@@ -87,11 +99,12 @@ func Layout(w *f.Window) {
 	cpslabel := widget.NewLabel("CPS: " + sc.FormatFloat(float64(Cps), 'f', 1, 32))
 
 	// CPS Slider
-	slider := widget.NewSlider(0.1, 1000)
-	slider.SetValue(float64(Cps))
+	slider := widget.NewSlider(0, 30)
+	slider.Step = 0.1
+	slider.SetValue(float64(slvalue))
 	slider.OnChanged = func(value float64) {
-		Cps = float32(slider.Value)
-		cpslabel.SetText("CPS: " + sc.FormatFloat(value, 'f', 1, 32))
+		Cps = logslider(value)
+		cpslabel.SetText("CPS: " + sc.FormatFloat(Cps, 'f', 1, 32))
 	}
 
 	rndlabel := widget.NewLabel("Random Variation: " + sc.FormatFloat(float64(randomVariation), 'f', 1, 32) + "ms")
@@ -100,22 +113,30 @@ func Layout(w *f.Window) {
 	rSlider := widget.NewSlider(0, 1000)
 
 	rSlider.OnChanged = func(value float64) {
-		randomVariation = float32(slider.Value)
+		randomVariation = value
 		rndlabel.SetText("Random Variation: " + sc.FormatFloat(value, 'f', 1, 32) + "ms")
 	}
 
+	rSlider.Step = 0.1
+
+	dropdown := widget.NewSelect([]string{"left", "right", "center", "wheelDown", "wheelUp", "wheelLeft", "wheelRight"}, func(s string) {
+		button = s
+	})
+
+	dropdown.SetSelected("left")
+
 	(*w).SetContent(
 		container.New(layout.NewVBoxLayout(),
-			widget.NewLabelWithStyle("Glicker", f.TextAlignCenter, f.TextStyle{Bold: true}),
-			cpslabel,
-			slider,
-			rndlabel,
-			rSlider,
-			widget.NewSelect([]string{"left", "right", "center", "wheelDown", "wheelUp", "wheelLeft", "wheelRight"}, func(s string) {
-				button = s
-			}),
-			startBtn,
+			container.New(layout.NewVBoxLayout(), widget.NewLabelWithStyle("Glicker", f.TextAlignCenter, f.TextStyle{Bold: true}),
+				cpslabel,
+				slider,
+				rndlabel,
+				rSlider,
+				widget.NewLabel("Mouse Button:"),
+				dropdown,
+			),
 			setKeyBtn,
+			startBtn,
 		))
 
 }
