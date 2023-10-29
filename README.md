@@ -15,11 +15,11 @@ You should be able to run
 4. Supports 7 different mouse buttons!
 5. Custom toggle key
 7. Random delay between clicks!
+8. Press more than one button at a time!
 
 ## Screenshots
-![image](https://github.com/checkm4ted/glicker/assets/146487129/b6fe47d1-392c-482e-bdfe-b7d435fc69f0)
-![image](https://github.com/checkm4ted/glicker/assets/146487129/a06448c8-23cb-4c14-9fcf-f3b183b93789)
-![image](https://github.com/checkm4ted/glicker/assets/146487129/46fafb43-e819-4d0e-84e2-edd97df1d5d8)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/f55d17da-6b3f-4465-ab06-34ad945ee25a)
+![image](https://github.com/checkm4ted/glicker/assets/146487129/d54e30e5-a67c-4f50-bd9b-68b320767397)
 
 ## Building
 ### Requirements:
@@ -30,7 +30,7 @@ You should be able to run
 1. `fyne package`
 
 ## TODO
-- [x] ~~~Multiple mouse buttons at once~~~
+- [x] ~~~Multiple mouse buttons at once~~~ DONE
 - [ ] Cross-platform  
 
 ## Credits/thanks
