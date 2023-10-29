@@ -14,8 +14,6 @@ import (
 
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
-
-	_ "github.com/defia/trf"
 )
 
 var Started bool = false

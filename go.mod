@@ -4,7 +4,6 @@ go 1.21.3
 
 require (
 	fyne.io/fyne/v2 v2.4.1
-	github.com/defia/trf v0.0.0-20170307045202-ccb04d6be22b
 	github.com/go-vgo/robotgo v1.0.0-rc2.1
 	github.com/robotn/gohook v0.41.0
 	golang.org/x/sys v0.13.0
