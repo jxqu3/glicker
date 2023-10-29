@@ -63,13 +63,12 @@ func Layout(w *f.Window) {
 	var boxes []f.CanvasObject
 
 	for i, v := range g.MouseButtons {
-		println(i)
 		el := i
-		cb := widget.NewCheck(i, func(b bool) {
+		cb := widget.NewCheck(v.Name, func(b bool) {
 			println(el)
-			g.MouseButtons[el] = b
+			g.MouseButtons[el].State = b
 		})
-		cb.SetChecked(v)
+		cb.SetChecked(v.State)
 		boxes = append(boxes, cb)
 	}
 

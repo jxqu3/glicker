@@ -64,11 +64,11 @@ func StartClicking() {
 				time.Sleep(100 * time.Millisecond)
 			}
 			if g.Clicking {
-				for i, v := range g.MouseButtons {
-					if v {
-						robotgo.MouseDown(i)
+				for _, v := range g.MouseButtons {
+					if v.State {
+						robotgo.MouseDown(v.Name)
 						time.Sleep(time.Duration(rand.Float32()*0.8+0.2) * time.Millisecond)
-						robotgo.MouseUp(i)
+						robotgo.MouseUp(v.Name)
 					}
 				}
 
