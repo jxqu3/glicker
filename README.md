@@ -13,6 +13,14 @@ A simple lightweight (~33MB) GUI autoclicker made in Go using Fyne and Robotgo
 ![image](https://github.com/checkm4ted/glicker/assets/146487129/87201028-bb99-46dd-9778-fec7b0f92c70)
 ![image](https://github.com/checkm4ted/glicker/assets/146487129/86a4df7d-87b2-4c97-9b8e-48cc6d326613)
 
+## Building
+### Requirements:
+1. Go
+2. Fyne CLI
+
+### Instructions:
+1. `fyne package`
+
 ## Installation
 Go to releases and download the package
 
